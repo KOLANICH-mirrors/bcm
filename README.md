@@ -1,4 +1,4 @@
-## BCM v1.01
+## BCM v1.02
 
 #### DESCRIPTION
 BCM is a high-performance file compressor that utilizes advanced context modeling
