@@ -7,7 +7,7 @@ brother of the BZIP2.
 
 ## AUTHORS
 - Ilya Muravyov
-- The libdivsufsort-lite library is developed by Yuta Mori
+- The libdivsufsort-lite library is developed by Yuta Mori (@y-256)
 
 ## THANKS
 Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Przemysław Skibiński
