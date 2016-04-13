@@ -10,5 +10,5 @@ brother of the BZIP2.
 - The libdivsufsort-lite library is developed by Yuta Mori
 
 #### THANKS
-Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Przemysław Skibiński
+Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Przemyslaw Skibinski
 and LovePimple.
