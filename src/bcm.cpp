@@ -25,6 +25,7 @@ Written and placed in the public domain by Ilya Muravyov
 
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_DISABLE_PERFCRIT_LOCKS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
