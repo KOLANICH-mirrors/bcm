@@ -414,6 +414,7 @@ int main(int argc, char** argv)
 			fprintf(stderr, "Unknown option: %s\n", argv[1]);
 			exit(1);
 		}
+
 		--argc;
 		++argv;
 	}
