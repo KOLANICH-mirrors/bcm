@@ -8,8 +8,8 @@ Written and placed in the public domain by Ilya Muravyov
 #ifdef __GNUC__
 
 #define _FILE_OFFSET_BITS 64
-#define _fseeki64 fseeko
-#define _ftelli64 ftello
+#define _fseeki64 fseeko64
+#define _ftelli64 ftello64
 
 #ifdef HAVE_GETC_UNLOCKED
 #undef getc
@@ -264,7 +264,7 @@ struct CM: Encoder
 
 byte* buf;
 
-void compress(int b)
+void compress(int bsize)
 {
 	if (_fseeki64(in, 0, SEEK_END))
 	{
@@ -277,11 +277,11 @@ void compress(int b)
 		perror("Ftell() failed");
 		exit(1);
 	}
-	if (b>flen)
-		b=int(flen);
+	if (bsize>flen)
+		bsize=int(flen);
 	rewind(in);
 
-	buf=(byte*)calloc(b, 5);
+	buf=(byte*)calloc(bsize, 5);
 	if (!buf)
 	{
 		fprintf(stderr, "Out of memory\n");
@@ -294,10 +294,10 @@ void compress(int b)
 	putc(magic[3], out);
 
 	int n;
-	while ((n=fread(buf, 1, b, in))>0)
+	while ((n=fread(buf, 1, bsize, in))>0)
 	{
-		const int p=divbwt(buf, buf, (int*)&buf[b], n);
-		if (p<1)
+		const int idx=divbwt(buf, buf, (int*)&buf[bsize], n);
+		if (idx<1)
 		{
 			perror("Divbwt() failed");
 			exit(1);
@@ -307,10 +307,10 @@ void compress(int b)
 		cm.Encode(n>>16);
 		cm.Encode(n>>8);
 		cm.Encode(n);
-		cm.Encode(p>>24);
-		cm.Encode(p>>16);
-		cm.Encode(p>>8);
-		cm.Encode(p);
+		cm.Encode(idx>>24);
+		cm.Encode(idx>>16);
+		cm.Encode(idx>>8);
+		cm.Encode(idx);
 
 		for (int i=0; i<n; ++i)
 			cm.Encode(buf[i]);
@@ -337,7 +337,7 @@ void decompress()
 
 	cm.Init();
 
-	int b=0;
+	int bsize=0;
 
 	for (;;)
 	{
@@ -347,20 +347,20 @@ void decompress()
 			|cm.Decode();
 		if (!n) // EOF
 			break;
-		if (!b)
+		if (!bsize)
 		{
-			buf=(byte*)calloc(b=n, 5);
+			buf=(byte*)calloc(bsize=n, 5);
 			if (!buf)
 			{
 				fprintf(stderr, "Out of memory\n");
 				exit(1);
 			}
 		}
-		const int p=(cm.Decode()<<24)
+		const int idx=(cm.Decode()<<24)
 			|(cm.Decode()<<16)
 			|(cm.Decode()<<8)
 			|cm.Decode();
-		if (n<1 || n>b || p<1 || p>n)
+		if (n<1 || n>bsize || idx<1 || idx>n)
 		{
 			fprintf(stderr, "File corrupted\n");
 			exit(1);
@@ -371,13 +371,13 @@ void decompress()
 			++t[(buf[i]=cm.Decode())+1];
 		for (int i=1; i<256; ++i)
 			t[i]+=t[i-1];
-		int* next=(int*)&buf[b];
+		int* next=(int*)&buf[bsize];
 		for (int i=0; i<n; ++i)
-			next[t[buf[i]]++]=i+(i>=p);
-		for (int i=p; i;)
+			next[t[buf[i]]++]=i+(i>=idx);
+		for (int p=idx; p;)
 		{
-			i=next[i-1];
-			putc(buf[i-(i>=p)], out);
+			p=next[p-1];
+			putc(buf[p-(p>=idx)], out);
 		}
 	}
 }
@@ -386,7 +386,7 @@ int main(int argc, char** argv)
 {
 	const clock_t start=clock();
 
-	int block_size=20<<20; // 20 MB
+	int bsize=20<<20; // 20 MB
 	bool do_decomp=false;
 	bool overwrite=false;
 
@@ -395,9 +395,9 @@ int main(int argc, char** argv)
 		switch (argv[1][1])
 		{
 		case 'b':
-			block_size=atoi(&argv[1][2])
+			bsize=atoi(&argv[1][2])
 				<<(argv[1][strlen(argv[1])-1]=='k'?10:20);
-			if (block_size<1)
+			if (bsize<1)
 			{
 				fprintf(stderr, "Block size is out of range\n");
 				exit(1);
@@ -487,7 +487,7 @@ int main(int argc, char** argv)
 	if (do_decomp)
 		decompress();
 	else
-		compress(block_size);
+		compress(bsize);
 
 	fprintf(stderr, "%lld->%lld in %.3fs\n", _ftelli64(in), _ftelli64(out),
 		double(clock()-start)/CLOCKS_PER_SEC);
