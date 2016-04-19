@@ -123,7 +123,7 @@ struct Encoder
 	}
 };
 
-template<int RATE>
+template<int rate>
 struct Counter
 {
 	int p;
@@ -135,12 +135,12 @@ struct Counter
 
 	void UpdateBit0()
 	{
-		p-=p>>RATE;
+		p-=p>>rate;
 	}
 
 	void UpdateBit1()
 	{
-		p+=(p^65535)>>RATE;
+		p+=(p^65535)>>rate;
 	}
 };
 
@@ -185,9 +185,9 @@ struct CM: Encoder
 			const int p2=counter1[c2][ctx].p;
 			const int p=(p0+p0+p0+p0+p1+p1+p1+p2)>>3;
 
-			const int idx=p>>12;
-			const int x1=counter2[f][ctx][idx].p;
-			const int x2=counter2[f][ctx][idx+1].p;
+			const int j=p>>12;
+			const int x1=counter2[f][ctx][j].p;
+			const int x2=counter2[f][ctx][j+1].p;
 			const int ssep=x1+(((x2-x1)*(p&4095))>>12);
 
 			const int bit=c&128;
@@ -198,8 +198,8 @@ struct CM: Encoder
 				Encoder::EncodeBit1(p+ssep+ssep+ssep);
 				counter0[ctx].UpdateBit1();
 				counter1[c1][ctx].UpdateBit1();
-				counter2[f][ctx][idx].UpdateBit1();
-				counter2[f][ctx][idx+1].UpdateBit1();
+				counter2[f][ctx][j].UpdateBit1();
+				counter2[f][ctx][j+1].UpdateBit1();
 				ctx+=ctx+1;
 			}
 			else
@@ -207,8 +207,8 @@ struct CM: Encoder
 				Encoder::EncodeBit0(p+ssep+ssep+ssep);
 				counter0[ctx].UpdateBit0();
 				counter1[c1][ctx].UpdateBit0();
-				counter2[f][ctx][idx].UpdateBit0();
-				counter2[f][ctx][idx+1].UpdateBit0();
+				counter2[f][ctx][j].UpdateBit0();
+				counter2[f][ctx][j+1].UpdateBit0();
 				ctx+=ctx;
 			}
 		}
@@ -233,9 +233,9 @@ struct CM: Encoder
 			const int p2=counter1[c2][ctx].p;
 			const int p=(p0+p0+p0+p0+p1+p1+p1+p2)>>3;
 
-			const int idx=p>>12;
-			const int x1=counter2[f][ctx][idx].p;
-			const int x2=counter2[f][ctx][idx+1].p;
+			const int j=p>>12;
+			const int x1=counter2[f][ctx][j].p;
+			const int x2=counter2[f][ctx][j+1].p;
 			const int ssep=x1+(((x2-x1)*(p&4095))>>12);
 
 			const int bit=Encoder::DecodeBit(p+ssep+ssep+ssep);
@@ -244,16 +244,16 @@ struct CM: Encoder
 			{
 				counter0[ctx].UpdateBit1();
 				counter1[c1][ctx].UpdateBit1();
-				counter2[f][ctx][idx].UpdateBit1();
-				counter2[f][ctx][idx+1].UpdateBit1();
+				counter2[f][ctx][j].UpdateBit1();
+				counter2[f][ctx][j+1].UpdateBit1();
 				ctx+=ctx+1;
 			}
 			else
 			{
 				counter0[ctx].UpdateBit0();
 				counter1[c1][ctx].UpdateBit0();
-				counter2[f][ctx][idx].UpdateBit0();
-				counter2[f][ctx][idx+1].UpdateBit0();
+				counter2[f][ctx][j].UpdateBit0();
+				counter2[f][ctx][j+1].UpdateBit0();
 				ctx+=ctx;
 			}
 		}
