@@ -6,10 +6,22 @@ Written and placed in the public domain by Ilya Muravyov
 */
 
 #ifdef __GNUC__
+
 #define _FILE_OFFSET_BITS 64
-#define _fseeki64 fseeko64
-#define _ftelli64 ftello64
+#define _fseeki64 fseeko
+#define _ftelli64 ftello
+
+#ifdef HAVE_GETC_UNLOCKED
+#undef getc
+#define getc getc_unlocked
 #endif
+
+#ifdef HAVE_PUTC_UNLOCKED
+#undef putc
+#define putc putc_unlocked
+#endif
+
+#endif // __GNUC__
 
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_DISABLE_PERFCRIT_LOCKS
