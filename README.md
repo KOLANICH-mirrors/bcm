@@ -8,4 +8,4 @@ BCM is a high-performance file compressor that utilizes advanced context modelin
 - The libdivsufsort-lite library used is developed by Yuta Mori
 
 #### THANKS
-Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Alexander Ratushnyak, Przemyslaw Skibinski and LovePimple.
+Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Alexander Rhatushnyak, Przemyslaw Skibinski and LovePimple.
