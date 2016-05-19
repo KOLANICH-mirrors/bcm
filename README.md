@@ -1,3 +1,5 @@
+#### CAUTION: Upcoming versions of the BCM file compressor will not be compatible with current releases! Please remove all of your forks and stay tuned!
+
 ## BCM v1.04
 
 #### DESCRIPTION
