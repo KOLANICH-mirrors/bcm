@@ -7,4 +7,4 @@ BCM is a high-performance file compressor that utilizes advanced context modelin
 Ilya Muravyov
 
 ### Thanks
-Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Alexander Rhatushnyak, Przemyslaw Skibinski and LovePimple.
+Special thanks to Yuta Mori, Matt Mahoney, Eugene Shelwien, Alexander Rhatushnyak, Przemyslaw Skibinski, Malcolm Taylor and LovePimple.
