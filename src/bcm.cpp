@@ -413,8 +413,8 @@ void compress(int bsize)
     for (int i=0; i<n; ++i)
       cm.Encode(buf[i]);
 
-    if (flen>0)
-      fprintf(stderr, "%3d%%\r", int((_ftelli64(fin)*100)/flen));
+    //if (flen>0)
+    //  fprintf(stderr, "%3d%%\r", int((_ftelli64(fin)*100)/flen));
   }
 
   free(buf);
@@ -544,6 +544,7 @@ int main(int argc, char** argv)
     perror(argv[1]);
     exit(1);
   }
+  setvbuf(fin,NULL,_IOFBF,32*1024*1024);
 
   char ofname[FILENAME_MAX];
   if (argc<3)
@@ -584,6 +585,7 @@ int main(int argc, char** argv)
     perror(ofname);
     exit(1);
   }
+  setvbuf(fout,NULL,_IOFBF,32*1024*1024);
 
   if (do_decomp)
   {
