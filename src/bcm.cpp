@@ -316,6 +316,7 @@ struct CM: Encoder
   }
 } cm;
 
+/*
 struct CRC
 {
   uint t[4][256];
@@ -373,6 +374,7 @@ struct CRC
       crc=t[0][(crc^*p++)&255]^(crc>>8);
   }
 } crc;
+*/
 
 void compress(int bsize)
 {
@@ -398,7 +400,7 @@ void compress(int bsize)
   int n;
   while ((n=fread(buf, 1, bsize, fin))>0)
   {
-    crc.Update(buf, n);
+    //crc.Update(buf, n);
 
     const int idx=divbwt(buf, buf, (int*)&buf[bsize], n);
     if (idx<1)
@@ -420,7 +422,7 @@ void compress(int bsize)
   free(buf);
 
   cm.Encode32(0); // EOF
-  cm.Encode32(crc());
+  //cm.Encode32(0);
 
   cm.Flush();
 }
@@ -474,17 +476,18 @@ void decompress()
       p=next[p-1];
       const int c=buf[p-(p>=idx)];
       putc(c, fout);
-      crc.Update(c);
+      //crc.Update(c);
     }
   }
 
   free(buf);
-
-  if (cm.Decode32()!=crc())
+/*
+  if (cm.Decode32()!=0)
   {
     fprintf(stderr, "CRC error!\n");
     exit(1);
   }
+*/
 }
 
 int main(int argc, char** argv)
@@ -623,7 +626,7 @@ int main(int argc, char** argv)
   }
 #endif
 
-  fprintf(stderr, "CRC = %08X\n", crc()); // DEBUG
+  //fprintf(stderr, "CRC = %08X\n", crc()); // DEBUG
 
   return 0;
 }
