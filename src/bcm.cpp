@@ -24,6 +24,13 @@ SOFTWARE.
 
 */
 
+#pragma GCC optimize("O3")
+#pragma GCC target("arch=corei7-avx")
+
+#define _WIN64
+#define HAVE_GETC_UNLOCKED
+#define HAVE_PUTC_UNLOCKED
+
 #ifndef _MSC_VER
 #  define _FILE_OFFSET_BITS 64
 
