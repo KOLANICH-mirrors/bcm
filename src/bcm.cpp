@@ -28,6 +28,7 @@ SOFTWARE.
 #pragma GCC target("arch=corei7-avx")
 
 #define _WIN64
+#define NO_UTIME
 #define HAVE_GETC_UNLOCKED
 #define HAVE_PUTC_UNLOCKED
 
@@ -534,7 +535,8 @@ int main(int argc, char** argv)
     ++argv;
   }
 
-  if (argc<2)
+/*
+  if (argc<1)
   {
     fprintf(stderr,
         "BCM - A BWT-based file compressor, v1.25\n"
@@ -548,6 +550,7 @@ int main(int argc, char** argv)
         "  -f     Force overwrite of output file\n", argv[0]);
     exit(1);
   }
+*/
 
 /*
   fin=fopen(argv[1], "rb");
