@@ -509,6 +509,7 @@ int main(int argc, char** argv)
   {
     switch (argv[1][1])
     {
+    case 'c': break; //gzip etc
     case 'b':
       bsize=atoi(&argv[1][2])
           <<(argv[1][strlen(argv[1])-1]=='k'?10:20);
@@ -548,13 +549,13 @@ int main(int argc, char** argv)
     exit(1);
   }
 
+/*
   fin=fopen(argv[1], "rb");
   if (!fin)
   {
     perror(argv[1]);
     exit(1);
   }
-  setvbuf(fin,NULL,_IOFBF,32*1024*1024);
 
   char ofname[FILENAME_MAX];
   if (argc<3)
@@ -595,6 +596,10 @@ int main(int argc, char** argv)
     perror(ofname);
     exit(1);
   }
+*/
+  fin=stdin;
+  fout=stdout;
+  setvbuf(fin,NULL,_IOFBF,32*1024*1024);
   setvbuf(fout,NULL,_IOFBF,32*1024*1024);
 
   if (do_decomp)
