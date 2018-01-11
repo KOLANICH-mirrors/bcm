@@ -401,9 +401,6 @@ void compress(int bsize)
       cm.Encode(buf[i]);
 
     fprintf(stderr, "%lld -> %lld\r", _ftelli64(fin), _ftelli64(fout));
-#ifndef _WIN32
-    fflush(stderr);
-#endif
   }
 
   cm.Encode32(0); // EOF
@@ -487,9 +484,6 @@ void decompress()
     }
 
     fprintf(stderr, "%lld -> %lld\r", _ftelli64(fin), _ftelli64(fout));
-#ifndef _WIN32
-    fflush(stderr);
-#endif
   }
 
   if (cm.Decode32()!=crc())
@@ -586,9 +580,7 @@ int main(int argc, char** argv)
       fclose(f);
 
       fprintf(stderr, "%s already exists. Overwrite (y/n)? ", ofname);
-#ifndef _WIN32
-      fflush(stderr);
-#endif
+
       if (getchar()!='y')
         exit(1);
     }
