@@ -5,6 +5,7 @@ BCM is a high-performance file compressor that utilizes advanced context modelin
 
 ### Quick Benchmark
 ENWIK8 file from LTCB (http://mattmahoney.net/dc/text.html)
+
 Program     | Compressed Size   |
 ------------|-------------------|
 Original    | 100,000,000 bytes |   
