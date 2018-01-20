@@ -11,6 +11,7 @@ GZIP -9      | 36,445,248 bytes  |
 BZIP2 -9     | 29,008,758 bytes  |
 7-Zip Ultra  | 24,864,804 bytes  |
 BCM -b100    | 20,789,667 bytes  |
+
 [1]:http://mattmahoney.net/dc/text.html
 
 ### Author
