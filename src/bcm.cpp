@@ -627,8 +627,8 @@ int main(int argc, char** argv)
   fprintf(stderr, "%lld -> %lld in %1.2fs\n", _ftelli64(fin), _ftelli64(fout),
       double(clock()-start)/CLOCKS_PER_SEC);
 
-  fclose(fin);
-  fclose(fout);
+  //fclose(fin);
+  //fclose(fout);
 
 #ifndef NO_UTIME
   struct _stati64 sb;
