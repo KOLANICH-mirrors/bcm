@@ -392,8 +392,8 @@ void compress(int bsize)
   int n;
   while ((n=fread(buf, 1, bsize, fin))>0)
   {
-    for (int i=0; i<n; ++i)
-      crc.Update(buf[i]);
+    //for (int i=0; i<n; ++i)
+    //  crc.Update(buf[i]);
 
     const int idx=divbwt(buf, buf, ptr, n);
     if (idx<1)
@@ -412,7 +412,7 @@ void compress(int bsize)
   }
 
   cm.Encode32(0); // EOF
-  cm.Encode32(crc());
+  //cm.Encode32(crc());
 
   cm.Flush();
 
@@ -470,7 +470,7 @@ void decompress()
         p=ptr[p-1];
         const int c=buf[p-(p>=idx)];
         putc(c, fout);
-        crc.Update(c);
+        //crc.Update(c);
       }
     }
     else // 4n
@@ -487,19 +487,19 @@ void decompress()
         p=ptr[p-1]>>8;
         const int c=ptr[p-(p>=idx)]&255;
         putc(c, fout);
-        crc.Update(c);
+        //crc.Update(c);
       }
     }
 
     fprintf(stderr, "%lld -> %lld\r", _ftelli64(fin), _ftelli64(fout));
   }
-
+/*
   if (cm.Decode32()!=crc())
   {
     fprintf(stderr, "CRC error!\n");
     exit(1);
   }
-
+*/
   mem_free(buf);
   mem_free(ptr);
 }
