@@ -3,6 +3,19 @@
 ### Description
 BCM is a high-performance file compressor that utilizes advanced context modeling techniques to achieve a very high compression ratio. All in all, it's like a big brother of the BZIP2.
 
+### Build
+
+#### Linux
+
+Type:
+```sh
+make
+```
+
+#### Windows
+
+[Go to](win)
+
 ### Quick Benchmark
 [ENWIK8][1] | Compressed Size   |
 ------------|-------------------|
